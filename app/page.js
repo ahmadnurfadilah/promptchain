@@ -1,113 +1,90 @@
-import Image from 'next/image'
+import { Button } from "@/components/ui/button";
+import { Coins, ListChecksIcon, SearchCheckIcon } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <section className="bg-primary-800">
+        <div className="container px-4 lg:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
+            <div className="pt-16 md:pt-0 pr-10 space-y-6">
+              <div className="relative">
+                <h1 className="relative text-4xl lg:text-5xl font-black leading-normal lg:leading-normal text-white">
+                  Discover, Trade, and Monetize Your{" "}
+                  <span className="text-lime relative">
+                    Prompts
+                    <img src="/img/sketch.svg" alt="Sketch" className="w-full absolute -bottom-3 right-0" />
+                  </span>{" "}
+                </h1>
+              </div>
+              <p className="leading-relaxed text-lg text-white/80">
+                The innovative platform that connects creators and enthusiasts to buy and sell prompts using blockchain technology. We empower your creativity
+                by enabling you to sell captivating ideas embedded within intriguing prompts.
+              </p>
+              <div className="flex items-center gap-4">
+                <Link href="/sell">
+                  <Button className="gap-2" variant="lime" size="lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 256 256">
+                      <path
+                        fill="currentColor"
+                        d="m234.8 89.9l-68.7-68.7a19.9 19.9 0 0 0-28.2 0l-24.5 24.5l-57.3 21.4a20.2 20.2 0 0 0-12.7 15.5L20.2 222A11.9 11.9 0 0 0 32 236l2-.2l139.4-23.2a20.2 20.2 0 0 0 15.5-12.7l21.4-57.2l24.5-24.6a19.9 19.9 0 0 0 0-28.2Zm-67.6 99.4L67 206l33.5-33.5a36 36 0 1 0-17-17L50 189L66.7 88.8L117 70l69.1 69ZM104 140a12 12 0 1 1 12 12a12 12 0 0 1-12-12Zm96-21l-63-63l15-15l63 63Z"
+                      />
+                    </svg>
+                    <span>Sell Prompts</span>
+                  </Button>
+                </Link>
+                <Link href="/discover">
+                  <Button className="gap-2 text-lime" variant="link" size="lg">
+                    <SearchCheckIcon className="w-5 h-5" />
+                    <span>Discover</span>
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            <div className="h-[40rem] relative">
+              <img src="/img/bg-circle.svg" alt="circle" className="w-full absolute z-10 top-24 pl-20 pointer-events-none" />
+              <img src="/img/write-bot.webp" alt="Writer" className="w-full absolute z-10 top-20 animate-updown pointer-events-none" />
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
+      <section className="container px-4 lg:px-6 my-20" id="features">
+        <div className="max-w-2xl">
+          <h2 className="font-black text-4xl lg:text-6xl mb-8">
+            Trade Ideas Seamlessly with <span className="text-primary-800">Promptchain</span>
           </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+        </div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="p-8 border rounded-md bg-white border-gray-800/10 cursor-crosshair hover:bg-lime hover:shadow-lg hover:shadow-lime/50 hover:-translate-y-px hover:border-primary-800 transition-all group">
+            <div className="w-12 h-12 rounded-md bg-lime border border-primary-800/10 flex items-center justify-center mb-4 group-hover:bg-primary-800 transition-all text-primary-800 group-hover:text-lime group-hover:scale-105 group-hover:-rotate-12 group-hover:shadow-xl delay-75 duration-200">
+              <ListChecksIcon />
+            </div>
+            <h3 className="font-extrabold text-xl mb-2 text-primary-800">List Your Prompts</h3>
+            <p className="opacity-80">As a creative mind, you can post your unique prompts on Promptchain, converting your ideas into valuable NFTs.</p>
+          </div>
+          <div className="p-8 border rounded-md bg-white border-gray-800/10 cursor-crosshair hover:bg-lime hover:shadow-lg hover:shadow-lime/50 hover:-translate-y-px hover:border-primary-800 transition-all group">
+            <div className="w-12 h-12 rounded-md bg-lime border border-primary-800/10 flex items-center justify-center mb-4 group-hover:bg-primary-800 transition-all text-primary-800 group-hover:text-lime group-hover:scale-105 group-hover:-rotate-12 group-hover:shadow-xl delay-75 duration-200">
+              <SearchCheckIcon />
+            </div>
+            <h3 className="font-extrabold text-xl mb-2 text-primary-800">Explore Prompts</h3>
+            <p className="opacity-80">
+              You can explore prompts and choose to either try one (ownership remains with the creator) or purchase one (ownership transfers to you).
+            </p>
+          </div>
+          <div className="p-8 border rounded-md bg-white border-gray-800/10 cursor-crosshair hover:bg-lime hover:shadow-lg hover:shadow-lime/50 hover:-translate-y-px hover:border-primary-800 transition-all group">
+            <div className="w-12 h-12 rounded-md bg-lime border border-primary-800/10 flex items-center justify-center mb-4 group-hover:bg-primary-800 transition-all text-primary-800 group-hover:text-lime group-hover:scale-105 group-hover:-rotate-12 group-hover:shadow-xl delay-75 duration-200">
+              <Coins />
+            </div>
+            <h3 className="font-extrabold text-xl mb-2 text-primary-800">Earn Royalties</h3>
+            <p className="opacity-80">
+              Every time user interact with a prompt, creators earn royalties, encouraging their continuous creativity and innovation.
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }
