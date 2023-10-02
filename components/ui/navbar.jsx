@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Logo from "../logo/logo";
-import LogoFLow from "../logo/logo-flow";
-import { Button } from "./button";
+import ConnectWallet from "./connect-wallet";
 
 export default function Navbar() {
   return (
@@ -19,10 +18,7 @@ export default function Navbar() {
           <Link href="/sell" className="hover:text-white">
             Sell Prompts
           </Link>
-          <Button className="gap-2" variant="lime">
-            <LogoFLow />
-            <span>Connect Wallet</span>
-          </Button>
+          <ConnectWallet />
         </div>
       </div>
     </nav>
