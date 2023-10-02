@@ -34,7 +34,7 @@ export default function Home() {
                     <span>Sell Prompts</span>
                   </Button>
                 </Link>
-                <Link href="/discover">
+                <Link href="/prompt">
                   <Button className="gap-2 text-lime" variant="link" size="lg">
                     <SearchCheckIcon className="w-5 h-5" />
                     <span>Discover</span>
