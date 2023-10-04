@@ -30,18 +30,18 @@ export default function ConnectWallet() {
       {isClient ? (
         <>
           {user?.loggedIn ? (
-            <Button className="gap-2" variant="secondary" onClick={() => fcl.unauthenticate()}>
+            <Button className="gap-2" onClick={() => fcl.unauthenticate()}>
               {strAddr(user.addr)}
             </Button>
           ) : (
-            <Button className="gap-2" variant="secondary" onClick={() => fcl.authenticate()}>
+            <Button className="gap-2" onClick={() => fcl.authenticate()}>
               <LogoFLow />
               Connect Wallet
             </Button>
           )}
         </>
       ) : (
-        <Button className="gap-2" variant="secondary">
+        <Button className="gap-2">
           Loading...
         </Button>
       )}
