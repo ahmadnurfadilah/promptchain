@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "./button";
-import { useUserStore } from "@/lib/store";
+import { useUserStore } from "../../lib/store";
 import { useEffect, useState } from "react";
 import "../../flow/config";
 import * as fcl from "@onflow/fcl";
 import LogoFLow from "../logo/logo-flow";
-import { strAddr } from "@/lib/utils";
+import { strAddr } from "../../lib/utils";
 
 export default function ConnectWallet() {
   const router = useRouter();

@@ -1,7 +1,7 @@
-import Navbar from "@/components/ui/navbar";
+import Navbar from "../components/ui/navbar";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import Loading from "@/components/ui/loading";
+import Loading from "../components/ui/loading";
 import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });

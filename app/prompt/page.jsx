@@ -1,7 +1,7 @@
 "use client";
 
-import LogoFLow from "@/components/logo/logo-flow";
-import { getAllOwners, getAllPrompts } from "@/flow/scripts";
+import LogoFLow from "../../components/logo/logo-flow";
+import { getAllOwners, getAllPrompts } from "../../flow/scripts";
 import { JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";

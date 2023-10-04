@@ -1,6 +1,6 @@
 "use client";
 
-import { useLoading } from "@/lib/store";
+import { useLoading } from "../../lib/store";
 import { LoaderIcon } from "lucide-react";
 
 export default function Loading() {

@@ -2,16 +2,16 @@
 
 import * as Yup from "yup";
 import * as fcl from "@onflow/fcl";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import ConnectWallet from "@/components/ui/connect-wallet";
-import { useLoading, useUserStore } from "@/lib/store";
+import { Button } from "../../components/ui/button";
+import { Card, CardContent, CardHeader } from "../../components/ui/card";
+import ConnectWallet from "../../components/ui/connect-wallet";
+import { useLoading, useUserStore } from "../../lib/store";
 import { CheckCircle2, ChevronLeft, ChevronRight, Rocket } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ErrorMessage, Field, Formik } from "formik";
-import LogoFLow from "@/components/logo/logo-flow";
-import { Label } from "@/components/ui/label";
-import { createPrompt } from "@/flow/transactions";
+import LogoFLow from "../../components/logo/logo-flow";
+import { Label } from "../../components/ui/label";
+import { createPrompt } from "../../flow/transactions";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 

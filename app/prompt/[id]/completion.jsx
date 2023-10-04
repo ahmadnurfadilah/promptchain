@@ -1,10 +1,10 @@
 "use client";
 
 import { useCompletion } from "ai/react";
-import LogoFLow from "@/components/logo/logo-flow";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import LogoFLow from "../../../components/logo/logo-flow";
+import { Alert, AlertDescription } from "../../../components/ui/alert";
+import { Button } from "../../../components/ui/button";
+import { Label } from "../../../components/ui/label";
 import { Info } from "lucide-react";
 import { JetBrains_Mono } from "next/font/google";
 import { useCallback, useEffect, useState } from "react";

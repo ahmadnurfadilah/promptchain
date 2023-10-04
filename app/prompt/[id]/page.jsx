@@ -1,9 +1,9 @@
 "use client";
 
-import LogoFLow from "@/components/logo/logo-flow";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { findPrompt, getAllOwners } from "@/flow/scripts";
+import LogoFLow from "../../../components/logo/logo-flow";
+import { Button } from "../../../components/ui/button";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../../../components/ui/sheet";
+import { findPrompt, getAllOwners } from "../../../flow/scripts";
 import { JetBrains_Mono } from "next/font/google";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
