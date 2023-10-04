@@ -2,20 +2,22 @@
 
 import LogoFLow from "@/components/logo/logo-flow";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { findPrompt, getAllOwners } from "@/flow/scripts";
 import { JetBrains_Mono } from "next/font/google";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import PromptCompletion from "./completion";
 
 const jet = JetBrains_Mono({ subsets: ["latin"] });
 
 export default function Page() {
-	const { id } = useParams();
+  const { id } = useParams();
   const [owners, setOwners] = useState([]);
-	const [prompt, setPrompt] = useState([]);
+  const [prompt, setPrompt] = useState([]);
 
   useEffect(() => {
-		getAllOwners().then((res) => {
+    getAllOwners().then((res) => {
       setOwners(res);
     });
     findPrompt(id).then((res) => {
@@ -37,13 +39,26 @@ export default function Page() {
                 <span className={`text-xs text-dark/60 ${jet.className}`}>By: {owners[prompt?.id]}</span>
                 <hr className="my-4" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Button className="gap-2" variant="primary">
-                    <span>Try Prompt</span>
-                    <h6 className={`flex items-center gap-1 ${jet.className}`}>
-                      <LogoFLow className="w-4 h-4" />
-                      <span>{prompt?.priceToUse}</span>
-                    </h6>
-                  </Button>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button className="gap-2" variant="primary">
+                        <span>Try Prompt</span>
+                        <h6 className={`flex items-center gap-1 ${jet.className}`}>
+                          <LogoFLow className="w-4 h-4" />
+                          <span>{prompt?.priceToUse}</span>
+                        </h6>
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent className="w-2/3 sm:w-1/2 md:w-1/2">
+                      <SheetHeader>
+                        <SheetTitle>Try Prompt: {prompt?.title}</SheetTitle>
+                        <SheetDescription>
+                          <PromptCompletion prompt={prompt} />
+                        </SheetDescription>
+                      </SheetHeader>
+                    </SheetContent>
+                  </Sheet>
+
                   <Button className="gap-2" variant="primary">
                     <span>Buy Prompt</span>
                     <h6 className={`flex items-center gap-1 ${jet.className}`}>
