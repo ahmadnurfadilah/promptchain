@@ -1,18 +1,24 @@
 "use client";
 
 import * as Yup from "yup";
+import * as fcl from "@onflow/fcl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ConnectWallet from "@/components/ui/connect-wallet";
-import { useUserStore } from "@/lib/store";
+import { useLoading, useUserStore } from "@/lib/store";
 import { CheckCircle2, ChevronLeft, ChevronRight, Rocket } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ErrorMessage, Field, Formik } from "formik";
 import LogoFLow from "@/components/logo/logo-flow";
 import { Label } from "@/components/ui/label";
+import { createPrompt } from "@/flow/transactions";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function Page() {
-  const [step, setStep] = useState(2);
+  const router = useRouter();
+  const [step, setStep] = useState(0);
+  const setLoading = useLoading((state) => state.setMsg);
   const user = useUserStore((state) => state.user);
   const [category, setCategory] = useState("GPT");
   const [isClient, setIsClient] = useState(false);
@@ -22,15 +28,38 @@ export default function Page() {
     setIsClient(true);
   }, []);
 
-  const handleSubmitData = (values) => {
+  const handleSubmitData = async (values) => {
     console.log(values);
-    setIsSubmit(true);
     if (step === 3) {
-      console.log("SUBMITTED");
+      setLoading("Processing...");
+      // console.log("SUBMITTED");
+      const metadataDict = [];
+      const metadata = {...JSON.parse(values.prompt), preview_output: values.preview_output};
+      console.log(metadata);
+      for (const key in metadata) {
+        if (metadata.hasOwnProperty(key)) {
+          const value = metadata[key];
+          metadataDict.push({
+            key: String(key), value: String(value)
+          });
+        }
+      }
+      const txId = await createPrompt(values.title, values.description, values.title, parseInt(values.price_to_use), values.price_for_sale, metadataDict);
+      console.log(txId);
+      fcl.tx(txId).subscribe((e) => {
+        if (e?.statusString != "") {
+          toast.dismiss();
+          toast.loading(e?.statusString);
+        }
+      });
+      await fcl.tx(txId).onceSealed();
+      toast.dismiss();
+      setLoading(false);
+
+      router.push("/prompt");
     } else {
       setStep((prev) => prev + 1);
     }
-    setIsSubmit(false);
   };
 
   if (!isClient) return "";
