@@ -30,3 +30,29 @@ export async function createPrompt(title, description, thumbnail, priceToUse, pr
     ],
   });
 }
+
+const SEND_FLOW = `import FungibleToken from 0xFungibleToken
+import FlowToken from 0xFlowToken
+transaction(amount: UFix64, to: Address) {
+  let sentVault: @FungibleToken.Vault
+  prepare(sender: AuthAccount) {
+    let vault = sender.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault) ?? panic("Could not borrow reference to the owner's Vault!")
+    self.sentVault <- vault.withdraw(amount: amount)
+  }
+  execute {
+    let recipient = getAccount(to)
+    let receiver = recipient.getCapability(/public/flowTokenReceiver).borrow<&{FungibleToken.Receiver}>() ?? panic("Could not borrow receiver reference to the recipient's Vault")
+    receiver.deposit(from: <-self.sentVault)
+  }
+}`;
+
+export async function sendFlow(amount, to) {
+  return fcl.mutate({
+    cadence: SEND_FLOW,
+    args: (arg, t) => [arg(amount, t.UFix64), arg(to, t.Address)],
+    payer: fcl.authz,
+    proposer: fcl.authz,
+    authorizations: [fcl.authz],
+    limit: 1000,
+  });
+}

@@ -6,7 +6,8 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { findPrompt, getAllOwners } from "../../../flow/scripts";
 import { JetBrains_Mono } from "next/font/google";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 import PromptCompletion from "./completion";
 
 const jet = JetBrains_Mono({ subsets: ["latin"] });
@@ -15,6 +16,7 @@ export default function Page() {
   const { id } = useParams();
   const [owners, setOwners] = useState([]);
   const [prompt, setPrompt] = useState([]);
+  const [isOpenTry, setIsOpenTry] = useState(false);
 
   useEffect(() => {
     getAllOwners().then((res) => {
@@ -39,25 +41,13 @@ export default function Page() {
                 <span className={`text-xs text-dark/60 ${jet.className}`}>By: {owners[prompt?.id]}</span>
                 <hr className="my-4" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Sheet>
-                    <SheetTrigger asChild>
-                      <Button className="gap-2" variant="primary">
-                        <span>Try Prompt</span>
-                        <h6 className={`flex items-center gap-1 ${jet.className}`}>
-                          <LogoFLow className="w-4 h-4" />
-                          <span>{prompt?.priceToUse}</span>
-                        </h6>
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent className="w-2/3 sm:w-1/2 md:w-1/2">
-                      <SheetHeader>
-                        <SheetTitle>Try Prompt: {prompt?.title}</SheetTitle>
-                        <SheetDescription>
-                          <PromptCompletion prompt={prompt} />
-                        </SheetDescription>
-                      </SheetHeader>
-                    </SheetContent>
-                  </Sheet>
+                  <Button className="gap-2" variant="primary" onClick={() => setIsOpenTry(true)}>
+                    <span>Try Prompt</span>
+                    <h6 className={`flex items-center gap-1 ${jet.className}`}>
+                      <LogoFLow className="w-4 h-4" />
+                      <span>{prompt?.priceToUse}</span>
+                    </h6>
+                  </Button>
 
                   <Button className="gap-2" variant="primary">
                     <span>Buy Prompt</span>
@@ -77,6 +67,46 @@ export default function Page() {
           </div>
         </div>
       </div>
+
+      <Transition appear show={isOpenTry} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={() => setIsOpenTry(false)}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title as="h3" className="text-lg font-bold leading-6 text-gray-900">
+                    Try Prompt: {prompt?.title}
+                  </Dialog.Title>
+                  <hr className="my-4" />
+                  <div className="mt-2">
+                    <PromptCompletion prompt={prompt} owners={owners} />
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </section>
   );
 }
