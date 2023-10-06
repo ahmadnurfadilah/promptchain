@@ -1,7 +1,7 @@
 "use client";
 
 import LogoFLow from "../../components/logo/logo-flow";
-import { getAllOwners, getAllPrompts } from "../../flow/scripts";
+import { getAllOwners, getAllPrompts, getUsedCount } from "../../flow/scripts";
 import { JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ const jet = JetBrains_Mono({ subsets: ["latin"] });
 export default function Page() {
   const [prompts, setPrompts] = useState([]);
   const [owners, setOwners] = useState([]);
+  const [usedCounts, setUsedCounts] = useState([]);
 
   useEffect(() => {
     getAllOwners().then((res) => {
@@ -19,7 +20,12 @@ export default function Page() {
     getAllPrompts().then((res) => {
       setPrompts(res);
     });
+    getUsedCount().then((res) => {
+      setUsedCounts(res);
+    });
   }, []);
+
+  console.log(prompts);
 
   return (
     <section className="my-12">
@@ -40,7 +46,7 @@ export default function Page() {
                     <LogoFLow className="w-4 h-4" />
                     <span className="tracking-wider">{i.priceToUse} FLOW</span>
                   </h6>
-                  <span className="text-dark/60">0 Used</span>
+                  <span className="text-dark/60">{usedCounts[i.id] || 0} Used</span>
                 </div>
               </div>
             </Link>

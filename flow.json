@@ -37,7 +37,7 @@
 			"key": "6d12eebfef9866c9b6fa92b97c6e705c26a1785b1e7944da701fc545a51d4673"
 		},
 		"promptchain-test": {
-			"address": "3cf9029d74dca73a",
+			"address": "65e9763f88a88825",
 			"key": {
 				"type": "file",
 				"location": "promptchain-test.pkey"

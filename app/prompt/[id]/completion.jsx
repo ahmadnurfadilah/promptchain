@@ -12,7 +12,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLoading, useUserStore } from "../../../lib/store";
 import toast from "react-hot-toast";
-import { sendFlow } from "../../../flow/transactions";
+import { tryPrompt } from "../../../flow/transactions";
 
 const jet = JetBrains_Mono({ subsets: ["latin"] });
 
@@ -75,7 +75,7 @@ export default function PromptCompletion({ prompt, owners }) {
       if (balance >= cost) {
         setLoading("Loading...");
         try {
-          const txId = await sendFlow(cost.toFixed(1), ownerAddress);
+          const txId = await tryPrompt(prompt?.id, cost.toFixed(1), ownerAddress);
           await fcl.tx(txId).onceSealed();
           setBalance((prev) => prev - cost);
           setLoading(false);

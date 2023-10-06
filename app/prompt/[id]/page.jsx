@@ -2,13 +2,13 @@
 
 import LogoFLow from "../../../components/logo/logo-flow";
 import { Button } from "../../../components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../../../components/ui/sheet";
 import { findPrompt, getAllOwners } from "../../../flow/scripts";
 import { JetBrains_Mono } from "next/font/google";
 import { useParams } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import PromptCompletion from "./completion";
+import toast from "react-hot-toast";
 
 const jet = JetBrains_Mono({ subsets: ["latin"] });
 
@@ -49,7 +49,7 @@ export default function Page() {
                     </h6>
                   </Button>
 
-                  <Button className="gap-2" variant="primary">
+                  <Button className="gap-2" variant="primary" onClick={() => toast.error("This features coming very soon!")}>
                     <span>Buy Prompt</span>
                     <h6 className={`flex items-center gap-1 ${jet.className}`}>
                       <LogoFLow className="w-4 h-4" />
@@ -64,6 +64,13 @@ export default function Page() {
             <h1 className="font-bold text-2xl">{prompt?.title}</h1>
             <hr className="my-4" />
             <p>{prompt?.description}</p>
+
+            {prompt?.metadata?.preview_output && (
+              <div className="mt-6">
+                <h5 className="font-bold text-xl mb-2">Preview Output</h5>
+                <p>{prompt?.metadata?.preview_output}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

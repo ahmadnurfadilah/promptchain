@@ -3,6 +3,7 @@ import NonFungibleToken from "./utility/NonFungibleToken.cdc"
 pub contract PromptChain: NonFungibleToken {
     pub var totalSupply: UInt64
     pub var ownedNFTAddress: {UInt64: Address}
+    pub var usedNFTCount: {UInt64: UInt64}
 
     pub event ContractInitialized()
     pub event Withdraw(id: UInt64, from: Address?)
@@ -79,6 +80,14 @@ pub contract PromptChain: NonFungibleToken {
         return <- create NFT(_category: category, _title: title, _description: description, _thumbnail: thumbnail, _priceToUse: priceToUse, _priceForSale: priceForSale, _metadata: metadata)
     }
 
+    pub fun usedPrompt(id: UInt64) {
+        if PromptChain.usedNFTCount.containsKey(id) {
+            PromptChain.usedNFTCount[id] =  PromptChain.usedNFTCount[id]! + 1
+        } else {
+            PromptChain.usedNFTCount[id] = 1
+        }
+    }
+
     pub fun createEmptyCollection(): @Collection {
         return <- create Collection()
     }
@@ -86,5 +95,6 @@ pub contract PromptChain: NonFungibleToken {
     init() {
         self.totalSupply = 0
         self.ownedNFTAddress = {}
+        self.usedNFTCount = {}
     }
 }

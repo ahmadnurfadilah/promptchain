@@ -32,20 +32,23 @@ export default function Page() {
     console.log(values);
     if (step === 3) {
       setLoading("Processing...");
-      // console.log("SUBMITTED");
+      if (!isJsonString(values.prompt)) {
+        toast.error("JSON prompt is not valid");
+        return setLoading(false);
+      }
       const metadataDict = [];
-      const metadata = {...JSON.parse(values.prompt), preview_output: values.preview_output};
-      console.log(metadata);
+      const metadata = { ...JSON.parse(values.prompt), preview_output: values.preview_output };
       for (const key in metadata) {
         if (metadata.hasOwnProperty(key)) {
           const value = metadata[key];
           metadataDict.push({
-            key: String(key), value: String(value)
+            key: String(key),
+            value: String(value),
           });
         }
       }
-      const txId = await createPrompt(values.title, values.description, values.title, parseInt(values.price_to_use), values.price_for_sale, metadataDict);
-      console.log(txId);
+      
+      const txId = await createPrompt(category, values.title, values.description, values.title, parseInt(values.price_to_use), values.price_for_sale, metadataDict);
       fcl.tx(txId).subscribe((e) => {
         if (e?.statusString != "") {
           toast.dismiss();
@@ -61,6 +64,15 @@ export default function Page() {
       setStep((prev) => prev + 1);
     }
   };
+
+  function isJsonString(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
 
   if (!isClient) return "";
 
@@ -152,40 +164,47 @@ export default function Page() {
 
                       <div className="space-y-2">
                         <Label>Category</Label>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                           <button
                             type="button"
                             className={`${
                               category === "GPT" ? "border-primary bg-lime" : "border-gray-200 hover:bg-gray-200"
-                            } relative w-full aspect-[5/2] bg-gray-100 border flex items-center justify-center font-bold text-sm rounded-md active:scale-95 transition-all`}
+                            } relative w-full aspect-[2/1] bg-gray-100 border flex items-center justify-center font-bold text-sm rounded-md active:scale-95 transition-all`}
                             onClick={() => setCategory("GPT")}
                           >
                             GPT
                           </button>
                           <button
                             type="button"
-                            className={`${
-                              category === "DALL-E" ? "border-primary bg-lime" : "border-gray-200 hover:bg-gray-200"
-                            } relative w-full aspect-[5/2] bg-gray-100 border flex items-center justify-center font-bold text-sm rounded-md active:scale-95 transition-all`}
-                            onClick={() => setCategory("DALL-E")}
+                            className="relative w-full aspect-[2/1] bg-gray-100 border flex items-center justify-center font-bold text-sm rounded-md disabled:text-dark/30 disabled:cursor-not-allowed"
+                            disabled
                           >
-                            DALL-E
+                            ChatGPT
+                            <p className="absolute bg-red-500 text-[9px] px-1 top-1 right-1 text-white rounded">Comin Soon</p>
                           </button>
                           <button
                             type="button"
-                            className="relative w-full aspect-[5/2] bg-gray-100 border flex items-center justify-center font-bold text-sm rounded-md disabled:text-dark/30 disabled:cursor-not-allowed"
+                            className="relative w-full aspect-[2/1] bg-gray-100 border flex items-center justify-center font-bold text-sm rounded-md disabled:text-dark/30 disabled:cursor-not-allowed"
+                            disabled
+                          >
+                            DALL-E
+                            <p className="absolute bg-red-500 text-[9px] px-1 top-1 right-1 text-white rounded">Comin Soon</p>
+                          </button>
+                          <button
+                            type="button"
+                            className="relative w-full aspect-[2/1] bg-gray-100 border flex items-center justify-center font-bold text-sm rounded-md disabled:text-dark/30 disabled:cursor-not-allowed"
                             disabled
                           >
                             Midjourney
-                            <span className="absolute bg-red-500 text-[9px] px-1 top-1.5 right-1.5 text-white rounded">Comin Soon</span>
+                            <p className="absolute bg-red-500 text-[9px] px-1 top-1 right-1 text-white rounded">Comin Soon</p>
                           </button>
                           <button
                             type="button"
-                            className="relative w-full aspect-[5/2] bg-gray-100 border flex items-center justify-center font-bold text-sm rounded-md disabled:text-dark/30 disabled:cursor-not-allowed"
+                            className="relative w-full aspect-[2/1] bg-gray-100 border flex items-center justify-center font-bold text-sm rounded-md disabled:text-dark/30 disabled:cursor-not-allowed"
                             disabled
                           >
                             Stable Diffusion
-                            <span className="absolute bg-red-500 text-[9px] px-1 top-1.5 right-1.5 text-white rounded">Comin Soon</span>
+                            <p className="absolute bg-red-500 text-[9px] px-1 top-1 right-1 text-white rounded">Comin Soon</p>
                           </button>
                         </div>
                       </div>
