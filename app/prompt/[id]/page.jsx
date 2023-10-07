@@ -1,5 +1,7 @@
 "use client";
 
+import "../../../flow/config";
+import * as fcl from "@onflow/fcl";
 import LogoFLow from "../../../components/logo/logo-flow";
 import { Button } from "../../../components/ui/button";
 import { findPrompt, getAllOwners } from "../../../flow/scripts";
@@ -9,14 +11,19 @@ import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import PromptCompletion from "./completion";
 import toast from "react-hot-toast";
+import { useUserStore } from "../../../lib/store";
 
 const jet = JetBrains_Mono({ subsets: ["latin"] });
 
 export default function Page() {
   const { id } = useParams();
+  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
   const [owners, setOwners] = useState([]);
   const [prompt, setPrompt] = useState([]);
   const [isOpenTry, setIsOpenTry] = useState(false);
+
+  useEffect(() => fcl.currentUser.subscribe(setUser), [setUser]);
 
   useEffect(() => {
     getAllOwners().then((res) => {
@@ -35,19 +42,38 @@ export default function Page() {
             <div className="w-full bg-white border rounded-md shadow-sm">
               <div className="w-full aspect-video bg-lime p-3 relative flex items-center justify-center">
                 <span className="absolute top-3 left-3 text-xs font-semibold bg-primary text-white rounded px-1 py-px">{prompt?.category || "Uncategory"}</span>
-                <h2 className={`font-bold text-4xl text-primary ${jet.className}`}>#1</h2>
+                <h2 className={`font-bold text-4xl text-primary ${jet.className}`}>#{prompt?.id}</h2>
               </div>
               <div className="p-4 flex flex-col justify-between">
                 <span className={`text-xs text-dark/60 ${jet.className}`}>By: {owners[prompt?.id]}</span>
                 <hr className="my-4" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Button className="gap-2" variant="primary" onClick={() => setIsOpenTry(true)}>
-                    <span>Try Prompt</span>
-                    <h6 className={`flex items-center gap-1 ${jet.className}`}>
-                      <LogoFLow className="w-4 h-4" />
-                      <span>{prompt?.priceToUse}</span>
-                    </h6>
-                  </Button>
+                  {user?.loggedIn ? (
+                    <Button className="gap-2" variant="primary" onClick={() => setIsOpenTry(true)}>
+                      <span>Try Prompt</span>
+                      <h6 className={`flex items-center gap-1 ${jet.className}`}>
+                        <LogoFLow className="w-4 h-4" />
+                        <span>{prompt?.priceToUse}</span>
+                      </h6>
+                    </Button>
+                  ) : (
+                    <Button
+                      className="gap-2"
+                      variant="primary"
+                      onClick={() => {
+                        toast.error("Connect your wallet");
+                        setTimeout(() => {
+                          fcl.authenticate();
+                        }, 500);
+                      }}
+                    >
+                      <span>Try Prompt</span>
+                      <h6 className={`flex items-center gap-1 ${jet.className}`}>
+                        <LogoFLow className="w-4 h-4" />
+                        <span>{prompt?.priceToUse}</span>
+                      </h6>
+                    </Button>
+                  )}
 
                   <Button className="gap-2" variant="primary" onClick={() => toast.error("This features coming very soon!")}>
                     <span>Buy Prompt</span>
